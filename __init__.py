@@ -21,6 +21,9 @@ def gc(arg, fail=False):
 
 def on_card_did_render(output: TemplateRenderOutput, context: TemplateRenderContext):
 
+    if context.card().did == gc("deckId") and context.card().ivl == 0 and context.card().reps == 0:
+        output.question_text += f"<style>.hint {{ display: block; }}</style>"
+
     if context.card().did == gc("deckId") and context.card().ivl > gc("maxLevel"):
         output.question_text += f"<style>#gif, #context {{ display: none; }}</style>"
         output.question_av_tags = [output.answer_av_tags[0]]
