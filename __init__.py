@@ -39,12 +39,12 @@ def on_card_did_render(output: TemplateRenderOutput, context: TemplateRenderCont
     # word {
     # debug {
 
-    output.question_text += f"<style>#debug {{ display: block; }}</style>"
-
-    if context.card().did == gc("deckId") and context.card().ivl < 5 and context.card().reps > 5:
-        output.question_text += f"<style>#word {{ color: red; }}</style>"
-
-    if context.card().did == gc("deckId") and context.card().ivl > 8 and context.card().reps > 5:
+    # output.question_text += f"<style>#debug {{ display: block; }}</style>"
+    #
+    # if context.card().did == gc("deckId") and context.card().ivl < 5 and context.card().reps > 5:
+    #     output.question_text += f"<style>#word {{ color: red; }}</style>"
+    #
+    if context.card().did == gc("deckId") and context.card().reps > 10:
         output.question_text += f"<style>#gif {{ display: none; }}</style>"
 
     if context.card().did == gc("deckId") and context.card().ivl == 0 and context.card().reps == 0:
