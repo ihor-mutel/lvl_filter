@@ -43,16 +43,40 @@ def on_card_did_render(output: TemplateRenderOutput, context: TemplateRenderCont
     #
     # if context.card().did == gc("deckId") and context.card().ivl < 5 and context.card().reps > 5:
     #     output.question_text += f"<style>#word {{ color: red; }}</style>"
-    #
-    if context.card().did == gc("deckId") and context.card().reps > 10:
+    #lapses=0
+
+    # HIGHLIGHT EASY CARDS
+    if context.card().did == gc("deckId") and context.card().lapses < 2 and context.card().reps > 6:
+        # output.question_text += f"<style>.easy {{ display: block !important; }}</style>"
+        output.question_text += f"<style>body {{ background-color: #7cedff21 !important; }}</style>"
+
+    # HIDE GIF FOR CARDS WITH SOME PROGRESS
+    if context.card().did == gc("deckId") and context.card().reps > 10 and context.card().ivl <= 10:
         output.question_text += f"<style>#gif {{ display: none; }}</style>"
 
+    # SHOW TRANSLATION FOR NEW CARDS
     if context.card().did == gc("deckId") and context.card().ivl == 0 and context.card().reps == 0:
         output.question_text += f"<style>.hint {{ display: block; }}</style>"
 
-    if context.card().did == gc("deckId") and context.card().ivl > gc("maxLevel"):
+    #FILL BLANK FOR MORE MATURE CARDS
+    if context.card().did == gc("filteredDeckId") and context.card().ivl > 5:
+        output.question_text += f"<style>#context, #word {{ display: none; }}</style>"''
+        output.question_text += f"<style>#fill-blank-block, .hint.word, #gif {{ display: block; }}</style>"''
+        # add original clip audio to back
+        output.answer_av_tags = [output.question_av_tags[0]]
+        # clear front
+        output.question_av_tags = []
+
+    if (context.card().did == gc("deckId") or context.card().did == 1606067545027) and context.card().ivl > 10:
         output.question_text += f"<style>#gif, #context {{ display: none; }}</style>"
         output.question_av_tags = [output.answer_av_tags[0]]
+
+# interval more 8 hide all keep only word
+# interval more 50 go active
+
+    # if context.card().did == gc("deckId") and context.card().ivl > 250:
+    #     output.question_text += f"<style>#gif, #context {{ display: none; }}</style>"
+    #     output.question_av_tags = [output.answer_av_tags[0]]
 
     #todo move (in template) gif audio as third audio in answer, add it to array here
     #sys.stderr.write(str(context.card().did))
